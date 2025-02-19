@@ -41,7 +41,7 @@ limit 1
 with base as (
 select 
 mem.customer_id,m.product_name,count(s.product_id) as purchased,
-rank() over (partition by mem.customer_id order by count(s.product_id) desc) as rank_pur
+rank() over (partition by mem.customer_id order by count(s.product_id) desc) as rank_product
 from sales s
 join menu m
 on s.product_id=m.product_id
@@ -52,7 +52,7 @@ group by 1,2
 select 
 distinct customer_id,product_name,purchased
 from base
-where rank_pur =1
+where rank_product =1
 group by 1,2,3
 
 --Which item was purchased first by the customer after they became a member?
